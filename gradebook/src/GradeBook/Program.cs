@@ -18,6 +18,8 @@ namespace GradeBook
             Console.WriteLine($"The highest grade is {stats.High}");
             Console.WriteLine($"The avarage grade is {stats.Avarage:N1}");
 
+            Console.ReadKey();
+
         }
     }
 }
