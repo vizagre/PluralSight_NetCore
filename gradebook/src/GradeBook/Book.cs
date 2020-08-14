@@ -72,9 +72,15 @@ namespace GradeBook
         {
             var result = new Statistics();
 
-            for (var index = 0; index < grades.Count; index +=1)
+            using (var reader = File.OpenText($"{Name}.txt"))
             {
-                result.Add(grades[index]);
+                var line = reader.ReadLine();
+                while(line != null)
+                {
+                    var number = double.Parse(line);
+                    result.Add(number);
+                    line = reader.ReadLine();
+                }                
             }
 
             return result;
