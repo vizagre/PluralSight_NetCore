@@ -7,18 +7,30 @@ namespace GradeBook
     {
         static void Main(string[] args)
         {
-            var book = new Book("Scott's Grade Book");
-            book.GradeAdded += OnGradeAdded;
-            book.GradeAdded += OnGradeAdded;
-            book.GradeAdded -= OnGradeAdded;
+            var book = new InMemoryBook("Scott's Grade Book");
             book.GradeAdded += OnGradeAdded;
 
-            while(true)
+            EnterGrades(book);
+
+            var stats = book.GetStatistics();
+
+            Console.WriteLine($"The lowest grade is {stats.Low}");
+            Console.WriteLine($"The highest grade is {stats.High}");
+            Console.WriteLine($"The avarage grade is {stats.Avarage:N1}");
+            Console.WriteLine($"The letter grade is {stats.Letter}");
+
+            Console.ReadKey();
+
+        }
+
+        private static void EnterGrades(IBook book)
+        {
+            while (true)
             {
                 Console.WriteLine("Enter a grade or 'q' to quit");
                 var input = Console.ReadLine();
 
-                if(input == "q")
+                if (input == "q")
                 {
                     break;
                 }
@@ -28,7 +40,7 @@ namespace GradeBook
                     var grade = Double.Parse(input);
                     book.AddGrade(grade);
                 }
-                catch(ArgumentException ex)
+                catch (ArgumentException ex)
                 {
                     Console.WriteLine(ex.Message);
                 }
@@ -38,17 +50,6 @@ namespace GradeBook
                 }
 
             }
-            
-            var stats = book.GetStatistics();
-
-            Console.WriteLine($"Category: {Book.CATEGORY}");
-            Console.WriteLine($"The lowest grade is {stats.Low}");
-            Console.WriteLine($"The highest grade is {stats.High}");
-            Console.WriteLine($"The avarage grade is {stats.Avarage:N1}");
-            Console.WriteLine($"The letter grade is {stats.Letter}");
-
-            Console.ReadKey();
-
         }
 
         static void OnGradeAdded(object sender, EventArgs e)
